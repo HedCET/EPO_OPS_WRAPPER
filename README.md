@@ -18,7 +18,7 @@ basic
 
 ```js
 var ops = require('EPO_OPS_WRAPPER')();
-console.log(ops.request('GET', 'rest-services/published-data/search', { q: 'IC=A' }));
+console.log(ops.request('rest-services/published-data/search?q=IC%3DA'));
 ```
 
 ## require('EPO_OPS_WRAPPER')(opt)
@@ -50,12 +50,12 @@ console.log(ops.config({
   consumer_key: '12345',
   consumer_secret: '123',
 }));
-console.log(ops.request('GET', 'rest-services/published-data/search', { q: 'IC=A' }));
+console.log(ops.request('rest-services/published-data/search?q=IC%3DA'));
 ```
 
-## .requesttmethod, relative_path, parameters)
+## .requesttrelative_path, method, form)
 | opt | type | description |
 | --- | --- | --- |
+| relative_url | <code>String</code> | https://ops.epo.org/3.1/[relative_url] |
 | method | <code>String</code> | GET, POST, etc |
-| relative_path | <code>String</code> | https://ops.epo.org/3.1/[relative_path] |
-| parameters | <code>Object</code> | http request parameters |
+| form | <code>Object</code> | for POST |

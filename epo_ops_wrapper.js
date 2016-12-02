@@ -1,7 +1,7 @@
 var _ = require('underscore'),
   future = require('fibers/future'),
-  httpreq = require('httpreq'),
-  moment = require('moment');
+  moment = require('moment'),
+  request = require('request');
 
 var app = {},
   config = {
@@ -23,24 +23,25 @@ function base64_encode(input) {
 /**
  * request(method, relative_path, parameters) => http requesting
  *
- * @param [String] method
- * @param [String] relative_path => https://ops.epo.org/3.1/[relative_path]
- * @param [Object] parameters
+ * @param [String] relative_url => https://ops.epo.org/3.1/[relative_url]
+ * @param [String] method => npm:request.method
+ * @param [Object] form => npm:request.form
  *
  * @return [Object]
  */
 
-app.request = function(method, relative_path, parameters) {
+app.request = function(relative_url, method, form) {
   var f = new future,
     opt = {
+      form: (form ? form : {}),
       headers: {
         'Accept': 'application/json',
         'User-Agent': 'Mozilla/5.0 (Windows NT 6.3; rv:36.0) Gecko/20100101 Firefox/36.0',
       },
-      method: method,
-      parameters: parameters,
+      method: (method ? method : 'GET'),
+      // proxy: 'http://linto.cet%40gmail.com:TorrentAlertProxy@au.torguardvpnaccess.com:6060',
       timeout: config.timeout,
-      url: 'https://ops.epo.org/3.1/' + relative_path,
+      url: 'https://ops.epo.org/3.1/' + (relative_url ? relative_url : ''),
     };
 
   if (config.consumer_key && config.consumer_secret && config.expires_in && config.issued_at && +moment(config.issued_at, ['x']).format('X') + (+config.expires_in) - 60 < +moment().format('X')) {
@@ -55,15 +56,15 @@ app.request = function(method, relative_path, parameters) {
     }
   }
 
-  httpreq.doRequest(opt, function(error, res) {
+  request(opt, function(error, res, body) {
     if (error) {
       f.return({ error: error });
     } else {
       try {
         if (res.statusCode == 200) {
-          f.return(JSON.parse(res.body));
+          f.return(JSON.parse(body));
         } else {
-          f.return({ error: res.body });
+          f.return({ error: body });
         }
       } catch (error) {
         f.return({ error: error });
@@ -88,7 +89,7 @@ app.config = function(opt) {
   }
 
   if (config.consumer_key && config.consumer_secret) {
-    var res = this.request('POST', 'auth/accesstoken', { grant_type: 'client_credentials' })
+    var res = this.request('auth/accesstoken', 'POST', { grant_type: 'client_credentials' })
 
     if (res.error) {
       console.log('[EPO_OPS_WRAPPER]', res.error);
@@ -100,7 +101,7 @@ app.config = function(opt) {
       return config;
     }
   } else {
-    console.log('[EPO_OPS_WRAPPER]', 'consumer_key & consumer_secret required');
+    console.log('[EPO_OPS_WRAPPER]', 'required consumer_key & consumer_secret');
 
     return null;
   }
