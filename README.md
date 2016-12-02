@@ -57,5 +57,5 @@ console.log(ops.request('rest-services/published-data/search?q=IC%3DA'));
 | opt | type | description |
 | --- | --- | --- |
 | relative_url | <code>String</code> | https://ops.epo.org/3.1/[relative_url] |
-| method | <code>String</code> | GET, POST, etc |
-| form | <code>Object</code> | for POST |
+| method | <code>String</code> | default => GET |
+| form | <code>Object</code> | for POST data |

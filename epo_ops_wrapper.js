@@ -31,6 +31,10 @@ function base64_encode(input) {
  */
 
 app.request = function(relative_url, method, form) {
+  if (config.consumer_key && config.consumer_secret && config.expires_in && config.issued_at && +moment(config.issued_at, ['x']).format('X') + (+config.expires_in) - 60 < +moment().format('X')) {
+    this.config();
+  }
+
   var f = new future,
     opt = {
       form: (form ? form : {}),
@@ -39,19 +43,18 @@ app.request = function(relative_url, method, form) {
         'User-Agent': 'Mozilla/5.0 (Windows NT 6.3; rv:36.0) Gecko/20100101 Firefox/36.0',
       },
       method: (method ? method : 'GET'),
-      // proxy: '',
       timeout: config.timeout,
       url: 'https://ops.epo.org/3.1/' + (relative_url ? relative_url : ''),
     };
 
-  if (config.consumer_key && config.consumer_secret && config.expires_in && config.issued_at && +moment(config.issued_at, ['x']).format('X') + (+config.expires_in) - 60 < +moment().format('X')) {
-    this.config();
+  if (config.proxy_list) {
+    opt.proxy = _.sample(config.proxy_list);
   }
 
   if (config.access_token) {
     opt.headers.Authorization = 'Bearer ' + config.access_token;
   } else {
-    if (config.consumer_key && config.consumer_secret) {
+    if (config.consumer_key && config.consumer_secret && relative_url == 'auth/accesstoken') {
       opt.headers.Authorization = 'Basic ' + base64_encode(config.consumer_key + ':' + config.consumer_secret);
     }
   }
