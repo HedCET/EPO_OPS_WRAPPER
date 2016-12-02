@@ -9,8 +9,6 @@ npm install --save EPO_OPS_WRAPPER
 ```
 
 # usage
-basic use
-
 ```js
 var ops = require('EPO_OPS_WRAPPER')();
 console.log(ops.request('GET', 'rest-services/published-data/search', { q: 'IC=A' }));
