@@ -24,7 +24,7 @@ function base64_encode(input) {
  * request(method, relative_path, parameters) => http requesting
  *
  * @param [String] method
- * @param [String] relative_path => https://ops.epo.org/3.1[relative_path]
+ * @param [String] relative_path => https://ops.epo.org/3.1/[relative_path]
  * @param [Object] parameters
  *
  * @return [Object]
@@ -40,10 +40,10 @@ app.request = function(method, relative_path, parameters) {
       method: method,
       parameters: parameters,
       timeout: config.timeout,
-      url: 'https://ops.epo.org/3.1' + relative_path,
+      url: 'https://ops.epo.org/3.1/' + relative_path,
     };
 
-  if (config.consumer_key && config.consumer_secret && config.expires_in && config.issued_at && +moment(config.issued_at, ['x']).format('X') + (+config.expires_in) - 120 < +moment().format('X')) {
+  if (config.consumer_key && config.consumer_secret && config.expires_in && config.issued_at && +moment(config.issued_at, ['x']).format('X') + (+config.expires_in) - 60 < +moment().format('X')) {
     this.config();
   }
 
@@ -87,16 +87,22 @@ app.config = function(opt) {
     config = _.extend(config, opt);
   }
 
-  var res = this.request('POST', '/auth/accesstoken', { grant_type: 'client_credentials' })
+  if (config.consumer_key && config.consumer_secret) {
+    var res = this.request('POST', 'auth/accesstoken', { grant_type: 'client_credentials' })
 
-  if (res.error) {
-    console.log('[ClayIP_OPS]', res.error);
+    if (res.error) {
+      console.log('[EPO_OPS_WRAPPER]', res.error);
+
+      return null;
+    } else {
+      config = _.extend(config, res);
+
+      return config;
+    }
+  } else {
+    console.log('[EPO_OPS_WRAPPER]', 'consumer_key & consumer_secret required');
 
     return null;
-  } else {
-    config = _.extend(config, res);
-
-    return config;
   }
 };
 
