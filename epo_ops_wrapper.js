@@ -39,7 +39,7 @@ app.request = function(relative_url, method, form) {
         'User-Agent': 'Mozilla/5.0 (Windows NT 6.3; rv:36.0) Gecko/20100101 Firefox/36.0',
       },
       method: (method ? method : 'GET'),
-      // proxy: 'http://linto.cet%40gmail.com:TorrentAlertProxy@au.torguardvpnaccess.com:6060',
+      // proxy: '',
       timeout: config.timeout,
       url: 'https://ops.epo.org/3.1/' + (relative_url ? relative_url : ''),
     };
