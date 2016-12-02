@@ -27,7 +27,7 @@ console.log(ops.request('rest-services/published-data/search?q=IC%3DA'));
 | proxy_list | <code>Array</code> | format http://ip:port OR http://usename:password@ip:port |
 | timeout | <code>Number</code> | http request timeout [default => 1000 * 60] |
 
-for randomized request
+for random IP request
 
 ```js
 var ops = require('EPO_OPS_WRAPPER')({
@@ -53,7 +53,7 @@ console.log(ops.config({
 console.log(ops.request('rest-services/published-data/search?q=IC%3DA'));
 ```
 
-## .requesttrelative_path, method, form)
+## .requesttrelative_url, method, form)
 | opt | type | description |
 | --- | --- | --- |
 | relative_url | <code>String</code> | https://ops.epo.org/3.1/[relative_url] |
