@@ -21,6 +21,38 @@ function base64_encode(input) {
 }
 
 /**
+ * config() => configuring
+ *
+ * @param [Object] opt => {consumer_key: [String], consumer_secret: [String]}
+ *
+ * @return [Object]
+ */
+
+app.config = function(opt) {
+  if (opt) {
+    config = _.extend(config, opt);
+  }
+
+  if (config.consumer_key && config.consumer_secret) {
+    var res = this.request('auth/accesstoken', 'POST', { grant_type: 'client_credentials' })
+
+    if (res.error) {
+      console.log('[EPO_OPS_WRAPPER]', res.error);
+
+      return null;
+    } else {
+      config = _.extend(config, res);
+
+      return config;
+    }
+  } else {
+    console.log('[EPO_OPS_WRAPPER]', 'required consumer_key & consumer_secret');
+
+    return null;
+  }
+};
+
+/**
  * request(method, relative_path, parameters) => http requesting
  *
  * @param [String] relative_url => https://ops.epo.org/3.1/[relative_url]
@@ -77,38 +109,6 @@ app.request = function(relative_url, method, form) {
 
   return f.wait();
 }
-
-/**
- * config() => configuring
- *
- * @param [Object] opt => {consumer_key: [String], consumer_secret: [String]}
- *
- * @return [Object]
- */
-
-app.config = function(opt) {
-  if (opt) {
-    config = _.extend(config, opt);
-  }
-
-  if (config.consumer_key && config.consumer_secret) {
-    var res = this.request('auth/accesstoken', 'POST', { grant_type: 'client_credentials' })
-
-    if (res.error) {
-      console.log('[EPO_OPS_WRAPPER]', res.error);
-
-      return null;
-    } else {
-      config = _.extend(config, res);
-
-      return config;
-    }
-  } else {
-    console.log('[EPO_OPS_WRAPPER]', 'required consumer_key & consumer_secret');
-
-    return null;
-  }
-};
 
 /** 
  * {consumer_key: [String], consumer_secret: [String]}
