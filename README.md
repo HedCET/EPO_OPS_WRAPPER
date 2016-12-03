@@ -14,7 +14,7 @@ npm install EPO_OPS_WRAPPER
 ```
 
 # usage
-minimum example
+example => checking ```IPC=A``` details
 
 ```js
 var ops = require('EPO_OPS_WRAPPER')();
