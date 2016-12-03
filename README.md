@@ -53,7 +53,7 @@ for registering consumer_key & consumer_secret, all ```request()``` after this u
 @return config[Object] if it success, otherwise null with console.log(error)
 
 
-```json
+```js
 { timeout: 60000,
   proxy_list: ['http://ip:port'],
   consumer_key: '12345',
