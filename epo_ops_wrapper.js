@@ -42,7 +42,7 @@ app.request = function(relative_url, method, form) {
       },
       method: (method ? method : 'GET'),
       proxy: _.sample(app.proxy_list),
-      timeout: config.timeout,
+      timeout: app.timeout,
       url: 'https://ops.epo.org/3.1/' + (relative_url ? relative_url : ''),
     };
 
