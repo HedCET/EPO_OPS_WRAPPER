@@ -75,7 +75,7 @@ console.log(ops.signIn({
 console.log(ops.request('rest-services/published-data/search?q=IC%3DA'));
 ```
 
-## .request(relative_url, method, form)
+### .request(relative_url, method, form)
 EPO OPS service SYNC http request, @return [Object]
 
 | opt | type | description |
