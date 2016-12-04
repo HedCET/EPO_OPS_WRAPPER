@@ -1,6 +1,6 @@
 {
   "author": "ClayIP",
-  "description": "EPO OPS WRAPPER",
+  "description": "EPO OPS WRAPPER with SYNC requesting, token expiry handler & PROXY based request randomization",
   "dependencies": {
     "fibers": "^1.0.15",
     "moment": "^2.17.0",
