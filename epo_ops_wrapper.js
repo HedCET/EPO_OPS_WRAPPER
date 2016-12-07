@@ -56,7 +56,7 @@ app.request = function(relative_url, method, form) {
 
   request(opt, function(error, res, body) {
     if (error) {
-      f.return({ error: error });
+      f.return({ error: error, res: res, body: body });
     } else {
       try {
         if (res.statusCode == 200) {
