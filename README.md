@@ -1,5 +1,5 @@
 # EPO OPS WRAPPER
-wrapper for EPO [OPS version 3.1](https://developers.epo.org) request.
+wrapper for EPO [OPS version 3.1](https://developers.epo.org) request
 
 ### FEATURE
 * http SYNC requesting using fibers/future
