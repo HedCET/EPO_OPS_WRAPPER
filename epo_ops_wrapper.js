@@ -22,7 +22,7 @@ function base64_encode(input) {
 /**
  * request(relative_url, method, form)
  *
- * @param [String] relative_url => https://ops.epo.org/3.1/[relative_url]
+ * @param [String] relative_url => https://ops.epo.org/3.2/[relative_url]
  * @param [String] method => npm:request.method
  * @param [Object] form => npm:request.form
  * @return [Object]
@@ -43,7 +43,7 @@ app.request = function(relative_url, method, form) {
       method: (method ? method : 'GET'),
       proxy: _.sample(app.proxy_list),
       timeout: app.timeout,
-      url: 'https://ops.epo.org/3.1/' + (relative_url ? relative_url : ''),
+      url: 'https://ops.epo.org/3.2/' + (relative_url ? relative_url : ''),
     };
 
   if (app.access_token) {
