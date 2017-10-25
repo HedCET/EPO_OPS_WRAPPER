@@ -80,6 +80,6 @@ EPO OPS service SYNC http request, @return [Object]
 
 | opt | type | description |
 | --- | --- | --- |
-| relative_url | <code>String</code> | https://ops.epo.org/3.1/[relative_url] |
+| relative_url | <code>String</code> | https://ops.epo.org/3.2/[relative_url] |
 | method | <code>String</code> | default => GET |
 | form | <code>Object</code> | for POST data |
